@@ -76,19 +76,36 @@ MongoClient.connect(connectionString, {useUnifiedTopology: true})
       console.log((result));
     })
     .catch(error => console.error(error))
+    //replace quote begin code here
+    quotesCollection 
+         .findOneAndUpdate(
+           { name: 'Yoda'},
+           {
+             $set: {
+               name: req.body.name,
+               quote: req.body.quote,
+             },
+     
+           },
+           {
+             upsert: true,
+           }
+            )
+         .then(result => {
+           console.log(result);
+         })
+         
+         .catch(error => console.error(error))
 
   })
-  //
-  app.put('/quotes',(req,res) =>{
-    console.log(req.body);
-    
-  })
+       app.put('/quotes',(req,res) =>{
+        console.log(req.body);
+       })
   //
   app.listen(3000, function(){
     console.log('server on 3000 is active');
 })
 
-  
 })
 .catch(error => console.log(error))
 
