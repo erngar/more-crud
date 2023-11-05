@@ -77,30 +77,49 @@ MongoClient.connect(connectionString, {useUnifiedTopology: true})
     })
     .catch(error => console.error(error))
     //replace quote begin code here
-    quotesCollection 
-         .findOneAndUpdate(
-           { name: 'Yoda'},
-           {
-             $set: {
-               name: req.body.name,
-               quote: req.body.quote,
-             },
-     
-           },
-           {
-             upsert: true,
-           }
-            )
-         .then(result => {
-           console.log(result);
-         })
+    // quotesCollection 
+    //      .findOneAndUpdate(
+    //        { name: 'Yoda'},
+    //        {
+    //          $set: {
+    //            name: req.body.name,
+    //            quote: req.body.quote,
+    //          },
+    //        },
+    //        {
+    //          upsert: true,
+    //        }
+    //         )
+    //      .then(result => {
+    //        console.log(result);
+    //      })
          
-         .catch(error => console.error(error))
+    //      .catch(error => console.error(error))
 
   })
        app.put('/quotes',(req,res) =>{
         console.log(req.body);
+        quotesCollection
+          .findOneAndUpdate( 
+            {name:'Yoda'},
+            {
+              $set: {
+                name: req.body.name,
+                quote: req.body.quote,
+              },
+            },
+            {
+              upsert: true,
+            }
+          )
+          .then(result => {
+            console.log(result);
+            res.json('Success')
+          })
+          .catch(error => console.error(error));
+       
        })
+      
   //
   app.listen(3000, function(){
     console.log('server on 3000 is active');
